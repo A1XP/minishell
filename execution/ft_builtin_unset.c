@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_buildin_unset.c                                 :+:      :+:    :+:   */
+/*   ft_builtin_unset.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:19:12 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/02/11 15:40:48 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:58:00 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	remove_env_var(t_executer *exec, int index)
 {
 	if (index > env_count(exec->env))
-		return (0);
+		return (EXIT_FAILURE);
 	free_ptr(exec->env[index]);
 	while (exec->env[index + 1] != NULL)
 	{
@@ -25,11 +25,11 @@ int	remove_env_var(t_executer *exec, int index)
 	}
 	exec->env = reallocate_env_nodes(exec, index);
 	if (exec->env == NULL)
-		return (0);
-	return (1);
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
-int	ft_buildin_unset(t_executer *exec, char **args)
+int	ft_builtin_unset(t_executer *exec, char **args)
 {
 	int	i;
 	int	index;
@@ -38,7 +38,7 @@ int	ft_buildin_unset(t_executer *exec, char **args)
 	while (args[i] != NULL)
 	{
 		if (check_var(args[i]) == 0 || ft_strchr(args[i], '=') != NULL)
-			return (0);
+			return (EXIT_FAILURE);
 		else
 		{
 			index = get_env_index(exec->env, args[i]);
@@ -47,5 +47,5 @@ int	ft_buildin_unset(t_executer *exec, char **args)
 		}
 		i++;
 	}
-	return (1);
+	return (EXIT_SUCCESS);
 }

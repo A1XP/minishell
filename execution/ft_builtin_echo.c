@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 15:26:28 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/02/17 16:30:24 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:08:30 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	echo_print(t_executer *exec, char **args, int n_key, int i)
 	exit (EXIT_SUCCESS);
 }
 
-int	ft_buildin_echo(t_executer *exec, char **args)
+int	ft_builtin_echo(t_executer *exec, char **args)
 {
 	int		i;
 	int		n_key;

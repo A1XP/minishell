@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_buildin_cd.c                                    :+:      :+:    :+:   */
+/*   ft_builtin_cd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:56:04 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/02/21 14:07:21 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:50:47 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,16 @@ int	update_env_wds(t_executer *exec, char *path)
 		free_ptr(exec->old_wd);
 		exec->old_wd = ft_strdup(exec->wd);
 		if (exec->old_wd == NULL)
-			return (0);
+			return (-1);
 	}
 	if (exec->wd == NULL)
 	{
 		free_ptr(exec->wd);
 		exec->wd = ft_strdup(path);
 		if (exec->wd == NULL)
-			return (0);
+			return (-1);
 	}
-	return (1);
+	return (0);
 }
 
 int change_dir(t_executer *exec, char *path)
@@ -40,7 +40,7 @@ int change_dir(t_executer *exec, char *path)
 
 	buffer = NULL;
 	if (chdir(path) != 0)
-		return (0);
+		return (-1);
 	if (exec->old_wd != NULL)
 		free (exec->old_wd);
 	exec->old_wd = ft_strdup(exec->wd);
@@ -51,12 +51,13 @@ int change_dir(t_executer *exec, char *path)
 	printf("change_dir WD: %s\n", exec->wd);
 	printf("change_dir OLDWD: %s\n", exec->old_wd);
 	update_env_wds(exec, cwd);
-	return (1);
+	return (0);
 }
 
-int ft_buildin_cd(t_executer *exec, char **args)
+int ft_builtin_cd(t_executer *exec, char **args)
 {
 	char	*path;
+	int		resault;
 	
 	path = args[1];
 	if (args[2] != NULL)
@@ -81,6 +82,8 @@ int ft_buildin_cd(t_executer *exec, char **args)
 		// change_dir(exec, path);
 		// return (EXIT_SUCCESS);
 	}
-	change_dir(exec, path);
+	resault = change_dir(exec, path);
+	if (resault != 0)
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

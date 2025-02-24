@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:14:53 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/02/21 13:31:20 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:24:47 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,14 @@ int		ft_exec_pipe(t_executer *exec, t_ast_node *node);
 int		ft_execution(t_executer *exec, t_ast_node *node);
 int		ft_exec_recursive(t_executer *exec, t_ast_node *node);
 
-int 	ft_buildin_cd(t_executer *exec, char **args);
-int		ft_buildin_echo(t_executer *exec, char **args);
-int	    ft_buildin_env(t_executer *exec);
-int 	ft_buildin_exit(char **args);
-int		ft_buildin_export(t_executer *exec, char **args);
-int	    ft_buildin_pwd(t_executer *exec);
-int		ft_buildin_unset(t_executer *exec, char **args);
+//		cd echo env exit export pwd unset
+int 	ft_builtin_cd(t_executer *exec, char **args);
+int		ft_builtin_echo(t_executer *exec, char **args);
+int	    ft_builtin_env(t_executer *exec);
+int 	ft_builtin_exit(char **args);
+int		ft_builtin_export(t_executer *exec, char **args);
+int	    ft_builtin_pwd(t_executer *exec);
+int		ft_builtin_unset(t_executer *exec, char **args);
 
 void	free_ptr(void *ptr);
 void	free_double_array(char **array);

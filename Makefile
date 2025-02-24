@@ -6,7 +6,7 @@
 #    By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/20 13:03:26 by nkhamich          #+#    #+#              #
-#    Updated: 2025/02/21 13:30:53 by pkhvorov         ###   ########.fr        #
+#    Updated: 2025/02/24 15:08:30 by pkhvorov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,10 +23,10 @@ SRC			= lexer/and.c lexer/assign.c lexer/comment.c mshell_lexer.c \
 			parser/parse_input.c parser/print_tree.c parser/argument.c parser/group.c \
 			parser/redirection.c mshell_main.c mshell_utils.c mshell_readline.c mshell_start.c \
 			mshell_cleanup.c mshell_execution.c \
-			execution/ft_buildin_pwd.c execution/ft_buildin_env.c  execution/ft_buildin_echo.c \
+			execution/ft_builtin_pwd.c execution/ft_builtin_env.c  execution/ft_builtin_echo.c \
 		  	execution/ft_execution.c execution/exec_utils.c execution/common_utils.c execution/env_utils.c \
-		  	execution/ft_buildin_cd.c execution/ft_buildin_export.c execution/ft_buildin_unset.c \
-			execution/ft_exec_pipe.c execution/ft_buildin_exit.c execution/ft_redirection.c \
+		  	execution/ft_builtin_cd.c execution/ft_builtin_export.c execution/ft_builtin_unset.c \
+			execution/ft_exec_pipe.c execution/ft_builtin_exit.c execution/ft_redirection.c \
 			execution/ft_redirection_heredoc.c
 OBJ_DIR		= obj
 OBJ			= $(SRC:%.c=$(OBJ_DIR)/%.o)

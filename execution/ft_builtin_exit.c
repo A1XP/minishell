@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:57:59 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/02/18 15:39:02 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:08:30 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int get_exit_code(char *str)
 	return (num % 256);
 }
 
-int ft_buildin_exit(char **args)
+int ft_builtin_exit(char **args)
 {
 	int exit_code;
 	
