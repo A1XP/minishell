@@ -1,0 +1,127 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_buildin_export.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/23 16:22:41 by pkhvorov          #+#    #+#             */
+/*   Updated: 2025/02/13 16:00:11 by pkhvorov         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "execution.h"
+
+int	ft_isalnumunder(int i)
+{
+	if (('a' <= i && i <= 'z') || ('A' <= i && i <= 'Z') \
+		|| ('0' <= i && i <= '9') || i == '_')
+		return (1);
+	return (0);
+}
+
+int	check_var(char *var)
+{
+	int	i;
+
+	i = 0;
+	while (var[i] != '\0' && var[i] != '=')
+	{
+		if (ft_isalnumunder(var[i]) == 0)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+char	**var_value_pair(char *arg)
+{
+	char	**temp;
+	char	*pos;
+	
+	pos = ft_strchr(arg, '=');
+	temp = malloc(3 * sizeof(char *));
+	temp[0] = ft_substr(arg, 0 , pos - arg);
+	temp[1] = ft_substr(pos, 1 , ft_strlen(pos));
+	temp[2] = NULL;
+	return (temp);
+}
+
+char	**reallocate_env_nodes(t_executer *exec, int count)
+{
+	char	**new_env;
+	int		i;
+
+	new_env = ft_calloc(count + 1, sizeof(char *));
+	if (!new_env)
+		return (NULL);
+	i = 0;
+	while (exec->env[i] && i < count)
+	{
+		new_env[i] = ft_strdup(exec->env[i]);
+		free_ptr(exec->env[i]);
+		i++;
+	}
+	free(exec->env);
+	return (new_env);
+}
+
+int set_var_value(t_executer *exec, char *var, char *value)
+{
+	char	*new_value;
+	int		index;
+	
+	if (value == NULL)
+		value = "";
+	new_value = ft_strjoin("=", value);
+	// printf("=VALUE: %s\n", value);
+	if (new_value == NULL)
+		return (0);
+	index = get_env_index(exec->env, var);
+	if (index != -1 && exec->env[index] != NULL)
+	{
+		free_ptr(exec->env[index]);
+		exec->env[index] = ft_strjoin(var, new_value);
+		// printf("KEY=VALUE in if: %s\n", exec->env[index]);
+	}
+	else
+	{
+		index = env_count(exec->env);
+		exec->env = reallocate_env_nodes(exec, index + 1);
+		if (exec->env == NULL)
+			return (0);
+		exec->env[index] = ft_strjoin(var, new_value);
+		// printf("KEY=VALUE in else: %s\n", exec->env[index]);
+		// exec->env[index + 1] = NULL;
+		// printf("KEY=VALUE in else + 1: %s\n", exec->env[index + 1]);
+	}
+	free_ptr(new_value);
+	return (1);
+}
+
+int	ft_buildin_export(t_executer *exec, char **args)
+{
+	int		i;
+	char	**temp;
+	
+	if (args[1] == NULL)
+		return (ft_buildin_env(exec));
+	i = 1;
+	while (args[i] != NULL)
+	{
+		printf("%s", args[i]);
+		if (check_var(args[i]) == 0)
+			return (0);
+		else if (ft_strchr(args[i], '=') != NULL)
+		{
+			temp = var_value_pair(args[i]);
+			print_darray(temp);
+			if (temp == NULL)
+				return (0);
+			set_var_value(exec, temp[0], temp[1]);
+			free_double_array(temp);
+		}
+		i++;
+	}
+	return (1);
+}

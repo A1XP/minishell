@@ -1,0 +1,75 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_redirection.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/20 16:13:19 by pkhvorov          #+#    #+#             */
+/*   Updated: 2025/02/21 14:05:28 by pkhvorov         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "execution.h"
+
+static void ft_redirection_out_files(t_redirect *redirects)
+{
+	int	fd_out;
+	
+	while (redirects)
+	{
+		if (redirects->redir_type == REDIR_OUT)
+			{
+				fd_out = open(redirects->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+				close(fd_out);
+			}
+		redirects = redirects->next;
+	}
+}
+
+static int	ft_redirection_out(t_executer *exec, t_ast_node *node)
+{
+	int	fd_out;
+	
+	fd_out = open(node->cmd->redirects->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	close(exec->out_fd);
+	exec->out_fd = fd_out;
+	if (node->cmd->redirects->next != NULL)
+		ft_redirection_out_files(node->cmd->redirects->next);
+	return (exec->status);
+}
+
+static int	ft_redirection_append(t_executer *exec, t_ast_node *node)
+{
+	int	fd_out;
+	
+	fd_out = open(node->cmd->redirects->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	close(exec->out_fd);
+	exec->out_fd = fd_out;
+	if (node->cmd->redirects->next != NULL)
+		ft_redirection_out_files(node->cmd->redirects->next);
+	return (exec->status);
+}
+
+static int	ft_redirection_in(t_executer *exec, t_ast_node *node)
+{
+	int	fd_in;
+
+	fd_in = open(node->cmd->redirects->filename, O_RDONLY);
+	close(exec->in_fd);
+	exec->in_fd = fd_in;
+	return (exec->status);
+}
+
+int ft_redirection(t_executer *exec, t_ast_node *node)
+{
+	if (node->cmd->redirects->redir_type == REDIR_OUT)
+		ft_redirection_out(exec, node);
+	if (node->cmd->redirects->redir_type == APPEND)
+		ft_redirection_append(exec, node);
+	if (node->cmd->redirects->redir_type == REDIR_IN)
+		ft_redirection_in(exec, node);
+	if (node->cmd->redirects->redir_type == HEREDOC)
+		ft_redirection_heredoc(exec, node);
+	return (exec->status);
+}
