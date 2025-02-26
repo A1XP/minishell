@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_redirection.c                                   :+:      :+:    :+:   */
+/*   ft_redirection_group.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 16:13:19 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/02/25 16:33:19 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/02/25 16:35:14 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ static int	ft_redirection_out(t_executer *exec, t_ast_node *node)
 {
 	int	fd_out;
 	
-	fd_out = open(node->cmd->redirects->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd_out = open(node->group_redirs->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	close(exec->out_fd);
 	exec->out_fd = fd_out;
-	if (node->cmd->redirects->next != NULL)
-		ft_redirection_out_files(node->cmd->redirects->next);
+	if (node->group_redirs->next != NULL)
+		ft_redirection_out_files(node->group_redirs->next);
 	return (exec->status);
 }
 
@@ -43,11 +43,11 @@ static int	ft_redirection_append(t_executer *exec, t_ast_node *node)
 {
 	int	fd_out;
 	
-	fd_out = open(node->cmd->redirects->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	fd_out = open(node->group_redirs->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	close(exec->out_fd);
 	exec->out_fd = fd_out;
-	if (node->cmd->redirects->next != NULL)
-		ft_redirection_out_files(node->cmd->redirects->next);
+	if (node->group_redirs->next != NULL)
+		ft_redirection_out_files(node->group_redirs->next);
 	return (exec->status);
 }
 
@@ -55,21 +55,21 @@ static int	ft_redirection_in(t_executer *exec, t_ast_node *node)
 {
 	int	fd_in;
 
-	fd_in = open(node->cmd->redirects->filename, O_RDONLY);
+	fd_in = open(node->group_redirs->filename, O_RDONLY);
 	close(exec->in_fd);
 	exec->in_fd = fd_in;
 	return (exec->status);
 }
 
-int ft_redirection(t_executer *exec, t_ast_node *node)
+int ft_redirection_group(t_executer *exec, t_ast_node *node)
 {
-	if (node->cmd->redirects->redir_type == REDIR_OUT)
+	if (node->group_redirs->redir_type == REDIR_OUT)
 		ft_redirection_out(exec, node);
-	if (node->cmd->redirects->redir_type == APPEND)
+	if (node->group_redirs->redir_type == APPEND)
 		ft_redirection_append(exec, node);
-	if (node->cmd->redirects->redir_type == REDIR_IN)
+	if (node->group_redirs->redir_type == REDIR_IN)
 		ft_redirection_in(exec, node);
-	if (node->cmd->redirects->redir_type == HEREDOC)
+	if (node->group_redirs->redir_type == HEREDOC)
 		ft_redirection_heredoc(exec, node);
 	return (exec->status);
 }

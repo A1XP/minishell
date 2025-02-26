@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
+/*   By: nkhamich <nkhamich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 12:40:48 by nkhamich          #+#    #+#             */
-/*   Updated: 2025/02/11 16:32:21 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/02/25 09:47:57 by nkhamich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_ast_node	*process_command(t_token *token, t_token *end, int *status)
 		else if (is_valid_assignment(token))
 			*status = add_assignment(node, &token, end);
 		else if (is_valid_redirection(token, status) && !(*status))
-			*status = add_redirection(node, &token);
+			*status = add_redirection(node, &token, false);
 		else if (node->cmd->cmd_name == NULL && !(*status))
 			*status = add_command_name(node, token);
 		else if (!(*status))

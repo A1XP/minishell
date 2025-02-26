@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natallia <natallia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nkhamich <nkhamich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 15:54:42 by natallia          #+#    #+#             */
-/*   Updated: 2025/02/09 11:18:55 by natallia         ###   ########.fr       */
+/*   Updated: 2025/02/25 09:30:26 by nkhamich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ t_ast_node	*create_ast_node(t_node_type type)
 	new_node->type = type;
 	new_node->left = NULL;
 	new_node->right = NULL;
+	new_node->group_redirs = NULL;
 	new_node->subtree = NULL;
 	new_node->cmd = NULL;
 	if (type == NODE_COMMAND)

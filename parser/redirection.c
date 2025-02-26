@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natallia <natallia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nkhamich <nkhamich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 09:51:41 by natallia          #+#    #+#             */
-/*   Updated: 2025/02/10 14:24:25 by natallia         ###   ########.fr       */
+/*   Updated: 2025/02/25 12:35:58 by nkhamich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ bool	is_valid_redirection(t_token *token, int *status)
 	return (false);
 }
 
-int	add_redirection(t_ast_node *node, t_token **token)
+int	add_redirection(t_ast_node *node, t_token **token, bool group)
 {
 	t_redirect	*new_redir;
 
@@ -50,12 +50,17 @@ int	add_redirection(t_ast_node *node, t_token **token)
 		(*token) = (*token)->next;
 	new_redir->filename = ft_strdup((*token)->next->value);
 	if (new_redir->filename == NULL)
+		return (free(new_redir), PARSER_CRITICAL_ERROR);
+	if (group == false)
 	{
-		free(new_redir);
-		return (PARSER_CRITICAL_ERROR);
+		new_redir->next = node->cmd->redirects;
+		node->cmd->redirects = new_redir;
 	}
-	new_redir->next = node->cmd->redirects;
-	node->cmd->redirects = new_redir;
+	else
+	{
+		new_redir->next = node->group_redirs;
+		node->group_redirs = new_redir;
+	}
 	*token = (*token)->next;
 	return (PARSER_DEFAULT);
 }

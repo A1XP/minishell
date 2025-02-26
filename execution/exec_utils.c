@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:08:16 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/02/24 15:15:47 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:13:31 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*find_cmd(char *cmd, t_executer *exec)
 	return (NULL);
 }
 
-int	execve_cmd(t_executer *exec, t_ast_node *node)
+int	ft_execve_cmd(t_executer *exec, t_ast_node *node)
 {
 	char	*cmd;
 	int	 prc_id;
@@ -78,7 +78,7 @@ int	execve_cmd(t_executer *exec, t_ast_node *node)
 		close(exec->in_fd);
 		close(exec->out_fd);
 		cmd = find_cmd(node->cmd->cmd_name, exec);
-		if (cmd == NULL)
+		if (!cmd)
 			return (EXIT_FAILURE);
 		execve(cmd, node->cmd->args, exec->env);
 	}

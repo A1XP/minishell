@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natallia <natallia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nkhamich <nkhamich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 10:41:57 by natallia          #+#    #+#             */
-/*   Updated: 2025/02/10 14:23:57 by natallia         ###   ########.fr       */
+/*   Updated: 2025/02/25 12:36:07 by nkhamich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_ast_node
 	t_command			*cmd;
 	struct s_ast_node	*left;
 	struct s_ast_node	*right;
+	t_redirect			*group_redirs;
 	struct s_ast_node	*subtree;
 }	t_ast_node;
 
@@ -82,6 +83,6 @@ void		free_ast(t_ast_node **node);
 void		print_ast(t_ast_node *node, int level);
 
 bool		is_valid_redirection(t_token *token, int *status);
-int			add_redirection(t_ast_node *node, t_token **token);
+int			add_redirection(t_ast_node *node, t_token **token, bool group);
 
 #endif

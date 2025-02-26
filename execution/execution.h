@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:14:53 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/02/24 15:24:47 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/02/25 16:24:04 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ typedef struct s_executer
 
 void	print_darray(char **array);
 int		ft_redirection(t_executer *exec, t_ast_node *node);
+int		ft_redirection_group(t_executer *exec, t_ast_node *node);
 int		ft_redirection_heredoc(t_executer *exec, t_ast_node *node);
-int		execve_cmd(t_executer *exec, t_ast_node *node);
+int		ft_execve_cmd(t_executer *exec, t_ast_node *node);
 
 int	    init_env(t_executer *exec, char **env);
 void	set_bin_paths(t_executer *exec, char **env);
@@ -55,7 +56,6 @@ int		ft_exec_pipe(t_executer *exec, t_ast_node *node);
 int		ft_execution(t_executer *exec, t_ast_node *node);
 int		ft_exec_recursive(t_executer *exec, t_ast_node *node);
 
-//		cd echo env exit export pwd unset
 int 	ft_builtin_cd(t_executer *exec, char **args);
 int		ft_builtin_echo(t_executer *exec, char **args);
 int	    ft_builtin_env(t_executer *exec);

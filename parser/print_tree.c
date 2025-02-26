@@ -6,7 +6,7 @@
 /*   By: nkhamich <nkhamich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 11:28:05 by natallia          #+#    #+#             */
-/*   Updated: 2025/02/04 15:28:43 by nkhamich         ###   ########.fr       */
+/*   Updated: 2025/02/25 12:32:38 by nkhamich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void print_assignments(t_list *assignments, const char *type)
 
 void print_ast(t_ast_node *node, int level)
 {
+	// ft_printf("Am I in print tree\n");
 	if (!node)
 		return;
 	for (int i = 0; i < level; i++)
@@ -71,7 +72,14 @@ void print_ast(t_ast_node *node, int level)
 			printf(RED "NODE_OR" RESET_COLOR "\n");
 			break;
 		case NODE_GROUP:
-			printf(YELLOW "NODE_GROUP" RESET_COLOR "\n");
+			printf(YELLOW "NODE_GROUP" RESET_COLOR);
+			if (node->group_redirs)
+			{
+				t_redirect *group_redirs = node->group_redirs;
+				printf(" ");
+				print_redirects(group_redirs);
+			}
+			printf("\n");
 			break;
 		case NODE_COMMAND:
 			printf(CYAN "NODE_COMMAND: " RESET_COLOR);
