@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:02:50 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/02/25 17:25:51 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/02/27 16:53:49 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	ft_builtins(t_executer *exec, t_ast_node *node)
 {
 	if (ft_strcmp(node->cmd->cmd_name, "exit") == 0)
-		return (ft_builtin_exit(node->cmd->args));
+		return (ft_builtin_exit(exec, node->cmd->args));
 	else if (ft_strcmp(node->cmd->cmd_name, "pwd") == 0)
 		return (ft_builtin_pwd(exec));
 	else if (ft_strcmp(node->cmd->cmd_name, "export") == 0)
@@ -35,7 +35,7 @@ int	ft_exec_cmd_or_builtin(t_executer *exec, t_ast_node *node)
 {
 	int		buildin;
 
-	printf("CMD: %s\n", node->cmd->cmd_name);
+	// printf("CMD: %s\n", node->cmd->cmd_name);
 	if (node->cmd->redirects != NULL)
 		ft_redirection(exec, node);
 	buildin = ft_builtins(exec, node);
@@ -57,6 +57,7 @@ int	ft_exec_and(t_executer *exec, t_ast_node *node)
 
 	resault = ft_exec_recursive(exec, node->left);
 	printf("RES %d\n", resault);
+	printf("ERROR NO %d\n", errno);
 	if (errno != 0)
 		return (resault);
 	if (resault == 0)
@@ -77,7 +78,7 @@ int	ft_execution(t_executer *exec, t_ast_node *node)
 	if (node == NULL)
 		return (EXIT_SUCCESS);
 	exec->ast = node;
-	ft_exec_recursive(exec, node);
+	exec->status = ft_exec_recursive(exec, node);
 	exec->ast = NULL;
 	return (exec->status);
 }
@@ -85,7 +86,7 @@ int	ft_execution(t_executer *exec, t_ast_node *node)
 int ft_exec_group(t_executer *exec, t_ast_node *node)
 {
 	pid_t		pid;
-	// int			status;
+	int			status;
 	
 	if (node->group_redirs != NULL)
 		ft_redirection_group(exec, node);
@@ -94,23 +95,23 @@ int ft_exec_group(t_executer *exec, t_ast_node *node)
 		return (EXIT_FAILURE);
 	else if (pid == 0)
 		{
-			ft_exec_recursive(exec, node->subtree);
+			exec->status = ft_exec_recursive(exec, node->subtree);
+			if (exec->status == 0)
+				exit(EXIT_SUCCESS);
 		}
 	close(exec->out_fd);
 	exec->out_fd = dup(STDOUT_FILENO);
 	close(exec->in_fd);
 	exec->in_fd = dup(STDIN_FILENO);
-	waitpid(pid, NULL, 0);
-	return (0);
-	// printf("STATUS GROUP %d\n", status);
-	// if (WIFEXITED(status))
-	// 	return (WEXITSTATUS(status));
-	// return (EXIT_FAILURE);
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	return (EXIT_FAILURE);
 }
 
 int	ft_exec_recursive(t_executer *exec, t_ast_node *node)
 {
-	printf("node->type %d\n", node->type);
+	// printf("node->type %d\n", node->type);
 	if (node->type == NODE_PIPE)
 		return (ft_exec_pipe(exec, node));
 	else if (node->type == NODE_COMMAND)

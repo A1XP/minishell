@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 13:34:07 by natallia          #+#    #+#             */
-/*   Updated: 2025/02/12 13:29:55 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:09:28 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ int	main(int argc, char **argv, char **envp)
 		else if (phase == MINISHELL_PARSER)
 			phase = mshell_parser(&mshell);
 		else if (phase == MINISHELL_EXECUTER)
-			phase = ft_execution(&mshell.exec, mshell.ast);
+			phase = mshell_execution(&mshell);
+		else if (phase == MINISHELL_CLEANUP)
+			phase = mshell_cleanup(&mshell);
 	}
 	return (g_exit_code);
 }

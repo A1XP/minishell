@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:02:50 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/02/18 16:38:59 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:13:29 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 t_mshell_phase	mshell_execution(t_mshell *mshell)
 {
-	ft_execution(&mshell->exec, mshell->ast);
+	g_exit_code = ft_execution(&mshell->exec, mshell->ast);
 	free_ast(&mshell->ast);
+	if (mshell->exec.isexit)
+		return (MINISHELL_CLEANUP);
 	return (MINISHELL_READLINE);
 }

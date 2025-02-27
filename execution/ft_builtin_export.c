@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 16:22:41 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/02/24 15:54:58 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/02/27 16:36:21 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int	ft_isalnumunder(int i)
 {
 	if (('a' <= i && i <= 'z') || ('A' <= i && i <= 'Z') \
 		|| ('0' <= i && i <= '9') || i == '_')
-		return (1);
-	return (0);
+		return (0);
+	return (1);
 }
 
 int	check_var(char *var)
@@ -27,11 +27,11 @@ int	check_var(char *var)
 	i = 0;
 	while (var[i] != '\0' && var[i] != '=')
 	{
-		if (ft_isalnumunder(var[i]) == 0)
-			return (0);
+		if (ft_isalnumunder(var[i]) == 1)
+			return (1);
 		i++;
 	}
-	return (1);
+	return (0);
 }
 
 char	**var_value_pair(char *arg)
@@ -99,23 +99,65 @@ int set_var_value(t_executer *exec, char *var, char *value)
 	return (EXIT_SUCCESS);
 }
 
+static int export_print(t_executer *exec)
+{
+	int	i;
+	
+	dup2(exec->in_fd, STDIN_FILENO);
+	dup2(exec->out_fd, STDOUT_FILENO);
+	close(exec->in_fd);
+	close(exec->out_fd);
+	i = 0;
+	if (exec->env == NULL)
+		return (EXIT_FAILURE);
+	while (exec->env[i] != NULL)
+	{
+		ft_putstr_fd("declare -x ", STDOUT_FILENO);
+		ft_putendl_fd(exec->env[i], STDOUT_FILENO);
+		i++;		
+	}
+	exit (EXIT_SUCCESS);
+}
+
+static int ft_export_print(t_executer *exec)
+{
+	pid_t		pid;
+	int			status;
+	
+	pid = fork();
+	if (pid == -1)
+		return (EXIT_FAILURE);
+	else if (pid == 0)
+		export_print(exec);
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	return (EXIT_FAILURE);
+}
+
 int	ft_builtin_export(t_executer *exec, char **args)
 {
 	int		i;
 	char	**temp;
 	
+	// printf("0 %s\n", args[0]);
+	// printf("1 %s\n", args[1]);
+	// printf("= %s\n", ft_strchr(args[1], '='));
 	if (args[1] == NULL)
-		return (ft_builtin_env(exec));
+		return (ft_export_print(exec));
 	i = 1;
 	while (args[i] != NULL)
 	{
-		printf("%s", args[i]);
-		if (check_var(args[i]) == 0)
+		if (ft_strchr(args[i], '=') == NULL || check_var(args[i]) == 1)
+		{
+			ft_putstr_fd("-minishell: export `", STDERR_FILENO);
+			ft_putstr_fd(args[i], STDERR_FILENO);
+			ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
 			return (EXIT_FAILURE);
-		else if (ft_strchr(args[i], '=') != NULL)
+		}
+		else
 		{
 			temp = var_value_pair(args[i]);
-			print_darray(temp);
 			if (temp == NULL)
 				return (EXIT_FAILURE);
 			set_var_value(exec, temp[0], temp[1]);

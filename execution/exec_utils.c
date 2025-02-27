@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:08:16 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/02/25 17:13:31 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:32:59 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,11 @@ int	ft_execve_cmd(t_executer *exec, t_ast_node *node)
 		close(exec->out_fd);
 		cmd = find_cmd(node->cmd->cmd_name, exec);
 		if (!cmd)
-			return (EXIT_FAILURE);
+		{
+			ft_putstr_fd("minishell: command not found: ", 2);
+			ft_putendl_fd(node->cmd->cmd_name, 2);
+			return (127);
+		}
 		execve(cmd, node->cmd->args, exec->env);
 	}
 	waitpid(prc_id, &status, 0);
@@ -91,8 +95,9 @@ int	ft_execve_cmd(t_executer *exec, t_ast_node *node)
 int	ft_exec_init(t_executer *exec)
 {
 	init_wds(exec);
-	exec->ast = NULL;
 	exec->status = 0;
+	exec->ast = NULL;
+	exec->isexit = 0;
 	exec->in_fd = dup(STDIN_FILENO);
 	if (exec->in_fd == -1)
 		return (EXIT_FAILURE);

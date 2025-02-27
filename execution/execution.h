@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:14:53 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/02/25 16:24:04 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:00:33 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_executer
 	int			in_fd;
 	int			out_fd;
     int         status;
+	int			isexit;
 }	t_executer;
 
 void	print_darray(char **array);
@@ -59,7 +60,7 @@ int		ft_exec_recursive(t_executer *exec, t_ast_node *node);
 int 	ft_builtin_cd(t_executer *exec, char **args);
 int		ft_builtin_echo(t_executer *exec, char **args);
 int	    ft_builtin_env(t_executer *exec);
-int 	ft_builtin_exit(char **args);
+int 	ft_builtin_exit(t_executer *exec, char **args);
 int		ft_builtin_export(t_executer *exec, char **args);
 int	    ft_builtin_pwd(t_executer *exec);
 int		ft_builtin_unset(t_executer *exec, char **args);
