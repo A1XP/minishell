@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkhamich <nkhamich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: natallia <natallia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 12:09:55 by natallia          #+#    #+#             */
-/*   Updated: 2025/02/04 12:39:36 by nkhamich         ###   ########.fr       */
+/*   Updated: 2025/03/03 12:43:01 by natallia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ const char *type[] = {
 	"APPEND",
 	"HEREDOC",
 	"VARIABLE",
-	"ASSIGN",
 	"STR_DOUBLE_Q",
 	"STR_SINGLE_Q",
 	"SPACE",

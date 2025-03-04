@@ -1,0 +1,21 @@
+rm -r 1 2 3 4 5 6 7 8 test_folder
+echo TEST 1
+mkdir test_folder && cd test_folder
+echo TEST 1-1
+cd ..
+echo TEST 2
+cd test999 || echo WRONG
+echo TEST 3
+echo test && (ls -lah | grep msh)
+echo TEST 4
+(ls -lah && echo test)
+echo TEST 5
+(ls -lah | grep msh) && (echo test1 && echo test2)
+echo TEST 6
+ls -lah | grep msh > 1
+echo TEST 7
+ls -lah | grep msh >> 2
+echo TEST 8
+(ls -lah | grep msh) > 3 > 4 > 5
+echo TEST 9
+(ls -lah | grep msh) >> 6 >> 7 >> 8

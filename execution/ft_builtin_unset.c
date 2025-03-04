@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:19:12 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/02/24 15:58:00 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/03/03 16:54:38 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	ft_builtin_unset(t_executer *exec, char **args)
 	i = 1;
 	while (args[i] != NULL)
 	{
-		if (check_var(args[i]) == 0 || ft_strchr(args[i], '=') != NULL)
+		if (check_var(args[i]) == 1 || ft_strchr(args[i], '=') != NULL)
 			return (EXIT_FAILURE);
 		else
 		{

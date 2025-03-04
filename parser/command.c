@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkhamich <nkhamich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: natallia <natallia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 12:40:48 by nkhamich          #+#    #+#             */
-/*   Updated: 2025/02/25 09:47:57 by nkhamich         ###   ########.fr       */
+/*   Updated: 2025/03/03 14:44:42 by natallia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_ast_node	*process_command(t_token *token, t_token *end, int *status)
 	{
 		if (token->type == SPACE)
 			;
-		else if (is_valid_assignment(token))
+		else if (is_valid_assignment(token) && node->cmd->cmd_name == NULL)
 			*status = add_assignment(node, &token, end);
 		else if (is_valid_redirection(token, status) && !(*status))
 			*status = add_redirection(node, &token, false);

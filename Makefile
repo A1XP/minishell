@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+         #
+#    By: natallia <natallia@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/20 13:03:26 by nkhamich          #+#    #+#              #
-#    Updated: 2025/02/25 16:35:58 by pkhvorov         ###   ########.fr        #
+#    Updated: 2025/03/03 15:16:28 by natallia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= minishell
 CC			= cc
 CFLAGS		= -Wall -Wextra -Werror -g
-SRC			= lexer/and.c lexer/assign.c lexer/comment.c mshell_lexer.c \
+SRC			= lexer/and.c lexer/comment.c mshell_lexer.c \
 			lexer/newline.c lexer/parentheses.c lexer/pipe_or.c \
 			lexer/quote.c lexer/redirection.c lexer/token_utils.c \
 			lexer/variable.c lexer/whitespace.c lexer/word.c \
@@ -27,7 +27,7 @@ SRC			= lexer/and.c lexer/assign.c lexer/comment.c mshell_lexer.c \
 		  	execution/ft_execution.c execution/exec_utils.c execution/common_utils.c execution/env_utils.c \
 		  	execution/ft_builtin_cd.c execution/ft_builtin_export.c execution/ft_builtin_unset.c \
 			execution/ft_exec_pipe.c execution/ft_builtin_exit.c execution/ft_redirection.c \
-			execution/ft_redirection_heredoc.c execution/ft_redirection_group.c    
+			execution/ft_redirection_heredoc.c execution/ft_redirection_group.c
 OBJ_DIR		= obj
 OBJ			= $(SRC:%.c=$(OBJ_DIR)/%.o)
 OBJ_BONUS	= $(SRC_BONUS:%.c=$(OBJ_DIR)/%.o)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkhamich <nkhamich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: natallia <natallia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 10:41:57 by natallia          #+#    #+#             */
-/*   Updated: 2025/02/25 12:36:07 by nkhamich         ###   ########.fr       */
+/*   Updated: 2025/03/03 12:47:44 by natallia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define PARSER_ERROR 1
 # define PARSER_CRITICAL_ERROR 2
 
-# define METACHAR ";|$#<>=\'\"()&"
+// # define METACHAR ";|$#<>=\'\"()&"
 
 typedef enum e_node_type
 {

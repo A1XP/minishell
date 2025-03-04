@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkhamich <nkhamich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: natallia <natallia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 11:27:03 by natallia          #+#    #+#             */
-/*   Updated: 2025/02/04 13:35:54 by nkhamich         ###   ########.fr       */
+/*   Updated: 2025/03/03 12:41:53 by natallia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define LEXER_ERROR 1
 # define LEXER_CRITICAL_ERROR 2
 
-# define METACHAR ";|$#<>=\'\"()&"
+# define METACHAR ";|$#<>\'\"()&"
 
 typedef enum e_token_type
 {
@@ -37,7 +37,6 @@ typedef enum e_token_type
 	APPEND,
 	HEREDOC,
 	VARIABLE,
-	ASSIGN,
 	STR_DOUBLE_Q,
 	STR_SINGLE_Q,
 	SPACE,
@@ -53,7 +52,6 @@ typedef struct s_token
 
 void	tokenize_input(const char *input, t_token **tokens, int *status);
 int		handle_and(const char **input, t_token **tokens);
-int		handle_assign(const char **input, t_token **tokens);
 int		handle_comment(const char **input, t_token **tokens);
 int		handle_newline(const char **input, t_token **tokens);
 int		handle_parentheses(const char **input, t_token **tokens);

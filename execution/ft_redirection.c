@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 16:13:19 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/02/25 16:33:19 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/03/03 13:56:02 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ static void ft_redirection_out_files(t_redirect *redirects)
 		if (redirects->redir_type == REDIR_OUT)
 			{
 				fd_out = open(redirects->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+				close(fd_out);
+			}
+		else if (redirects->redir_type == APPEND)
+			{
+				fd_out = open(redirects->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 				close(fd_out);
 			}
 		redirects = redirects->next;

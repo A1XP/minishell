@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:04:51 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/02/12 13:43:52 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/03/03 13:28:36 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,18 +92,18 @@ int	init_wds(t_executer *exec)
 	wd = getcwd(buffer, PATH_MAX);
 	exec->wd = ft_strdup(wd);
 	if (exec->wd == NULL)
-		return (0);
+		return (EXIT_FAILURE);
 	if (get_env_var(exec->env, "OLDPWD") != NULL)
 	{
 		exec->old_wd = ft_strdup(get_env_var(exec->env, "OLDPWD"));
 		if (exec->old_wd == NULL)
-			return (0);
+			return (EXIT_FAILURE);
 	}
 	else
 	{
 		exec->old_wd = ft_strdup(wd);
 		if (exec->old_wd == NULL)
-			return (0);
+			return (EXIT_FAILURE);
 	}
-	return (1);
+	return (EXIT_SUCCESS);
 }

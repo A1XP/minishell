@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 16:22:41 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/02/27 16:36:21 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/03/03 16:55:44 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ int	ft_builtin_export(t_executer *exec, char **args)
 	
 	// printf("0 %s\n", args[0]);
 	// printf("1 %s\n", args[1]);
+	// printf("2 %s\n", args[2]);
 	// printf("= %s\n", ft_strchr(args[1], '='));
 	if (args[1] == NULL)
 		return (ft_export_print(exec));

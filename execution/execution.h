@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:14:53 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/02/26 16:00:33 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/03/03 13:31:06 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ int		ft_redirection_heredoc(t_executer *exec, t_ast_node *node);
 int		ft_execve_cmd(t_executer *exec, t_ast_node *node);
 
 int	    init_env(t_executer *exec, char **env);
-void	set_bin_paths(t_executer *exec, char **env);
+int		set_bin_paths(t_executer *exec, char **env);
 int	    init_wds(t_executer *exec);
-int		ft_exec_init(t_executer *exec);
+int		ft_exec_init(t_executer *exec, char **envp);
 int		ft_exec_cmd(t_executer *exec, t_ast_node *node);
 int		ft_exec_pipe(t_executer *exec, t_ast_node *node);
 int		ft_execution(t_executer *exec, t_ast_node *node);

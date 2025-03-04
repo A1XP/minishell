@@ -6,13 +6,13 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:08:16 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/02/27 17:32:59 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/03/03 17:13:51 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-void	set_bin_paths(t_executer *exec, char **env)
+int	set_bin_paths(t_executer *exec, char **env)
 {
 	char	*path_env;
 	int		i;
@@ -24,13 +24,14 @@ void	set_bin_paths(t_executer *exec, char **env)
 		if (ft_strncmp(env[i], "PATH=", 5) == 0)
 		{
 			path_env = env[i] + 5;
-			break ;
+			break;
 		}
 		i++;
 	}
 	exec->bin_paths = ft_split(path_env, ':');
 	if (exec->bin_paths == NULL)
-		return ;
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 char	*find_cmd(char *cmd, t_executer *exec)
@@ -92,9 +93,17 @@ int	ft_execve_cmd(t_executer *exec, t_ast_node *node)
 	return (EXIT_FAILURE);
 }
 
-int	ft_exec_init(t_executer *exec)
+char			**get_envp_copy(char **envp);
+
+int	ft_exec_init(t_executer *exec, char **envp)
 {
-	init_wds(exec);
+	exec->env = get_envp_copy(envp);
+	if (exec->env == NULL)
+		return (EXIT_FAILURE);
+	if (init_wds(exec) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	if (set_bin_paths(exec, envp) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	exec->status = 0;
 	exec->ast = NULL;
 	exec->isexit = 0;
