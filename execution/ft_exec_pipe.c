@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:02:50 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/02/25 17:19:53 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/03/05 16:48:43 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static void	fn_right_child(int *pipefd, t_executer *exec, t_ast_node *node)
 	close(pipefd[1]);
 	close(exec->in_fd);
 	exec->in_fd = pipefd[0];
-
 	ft_exec_recursive(exec, node->right);
 	if (exec->in_fd >= 0)
 	{

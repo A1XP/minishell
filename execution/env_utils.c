@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:04:51 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/03/03 13:28:36 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/03/05 16:35:33 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	env_count(char **env)
 	i = 0;
 	while (env[i] != NULL)
 		i++;
-	return(i);
+	return (i);
 }
 
 int	init_env(t_executer *exec, char **env)
@@ -40,7 +40,7 @@ int	init_env(t_executer *exec, char **env)
 	return (i);
 }
 
-int get_env_index(char **env, char *var)
+int	get_env_index(char **env, char *var)
 {
 	int		i;
 	char	*temp;

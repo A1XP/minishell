@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 16:22:41 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/03/03 16:55:44 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/03/05 16:47:27 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ char	**var_value_pair(char *arg)
 {
 	char	**temp;
 	char	*pos;
-	
+
 	pos = ft_strchr(arg, '=');
 	temp = malloc(3 * sizeof(char *));
-	temp[0] = ft_substr(arg, 0 , pos - arg);
-	temp[1] = ft_substr(pos, 1 , ft_strlen(pos));
+	temp[0] = ft_substr(arg, 0, pos - arg);
+	temp[1] = ft_substr(pos, 1, ft_strlen(pos));
 	temp[2] = NULL;
 	return (temp);
 }
@@ -66,11 +66,11 @@ char	**reallocate_env_nodes(t_executer *exec, int count)
 	return (new_env);
 }
 
-int set_var_value(t_executer *exec, char *var, char *value)
+int	set_var_value(t_executer *exec, char *var, char *value)
 {
 	char	*new_value;
 	int		index;
-	
+
 	if (value == NULL)
 		value = "";
 	new_value = ft_strjoin("=", value);
@@ -99,10 +99,10 @@ int set_var_value(t_executer *exec, char *var, char *value)
 	return (EXIT_SUCCESS);
 }
 
-static int export_print(t_executer *exec)
+static	int	export_print(t_executer *exec)
 {
 	int	i;
-	
+
 	dup2(exec->in_fd, STDIN_FILENO);
 	dup2(exec->out_fd, STDOUT_FILENO);
 	close(exec->in_fd);
@@ -114,16 +114,16 @@ static int export_print(t_executer *exec)
 	{
 		ft_putstr_fd("declare -x ", STDOUT_FILENO);
 		ft_putendl_fd(exec->env[i], STDOUT_FILENO);
-		i++;		
+		i++;
 	}
 	exit (EXIT_SUCCESS);
 }
 
-static int ft_export_print(t_executer *exec)
+static	int	ft_export_print(t_executer *exec)
 {
 	pid_t		pid;
 	int			status;
-	
+
 	pid = fork();
 	if (pid == -1)
 		return (EXIT_FAILURE);
@@ -139,7 +139,7 @@ int	ft_builtin_export(t_executer *exec, char **args)
 {
 	int		i;
 	char	**temp;
-	
+
 	// printf("0 %s\n", args[0]);
 	// printf("1 %s\n", args[1]);
 	// printf("2 %s\n", args[2]);

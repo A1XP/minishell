@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:56:04 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/02/27 17:27:37 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/03/05 16:40:06 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 int	update_env_wds(t_executer *exec, char *path)
 {
-	set_var_value(exec, "OLDPWD", get_env_var(exec->env, "PWD"));
-	set_var_value(exec, "PWD", path);
+	if (set_var_value(exec, "OLDPWD", get_env_var(exec->env, "PWD")) != 0)
+		return (-1);
+	if (set_var_value(exec, "PWD", path) != 0)
+		return (-1);
 	if (exec->old_wd == NULL)
 	{
 		free_ptr(exec->old_wd);
@@ -33,7 +35,7 @@ int	update_env_wds(t_executer *exec, char *path)
 	return (0);
 }
 
-int change_dir(t_executer *exec, char *path)
+int	change_dir(t_executer *exec, char *path)
 {
 	char	*cwd;
 	char	*buffer;
@@ -51,43 +53,37 @@ int change_dir(t_executer *exec, char *path)
 		free (exec->wd);
 	cwd = getcwd(buffer, PATH_MAX);
 	exec->wd = ft_strdup(cwd);
-	printf("change_dir WD: %s\n", exec->wd);
-	printf("change_dir OLDWD: %s\n", exec->old_wd);
-	update_env_wds(exec, cwd);
+	if (exec->wd == NULL)
+		return (-1);
+	if (update_env_wds(exec, cwd) != 0)
+		return (-1);
 	return (0);
 }
 
-int ft_builtin_cd(t_executer *exec, char **args)
+int	ft_builtin_cd(t_executer *exec, char **args)
 {
 	char	*path;
-	int		resault;
-	
-	path = args[1];
 
-	if (args[1] == NULL || ft_isspace(args[1][0]) != 0 \
+	path = args[1];
+	if (args[1] == NULL || ft_isspace(args[1][0]) != 0
 		|| args[1][0] == '\0' || ft_strncmp(args[1], "--", 3) == 0)
 	{
 		path = get_env_var(exec->env, "HOME");
 		if (path == NULL || *path == '\0' || ft_isspace(*path) != 0)
 			return (EXIT_FAILURE);
-		// change_dir(exec, path);
-		// return (EXIT_SUCCESS);
 	}
 	else if (ft_strncmp(args[1], "-", 2) == 0)
 	{
 		path = get_env_var(exec->env, "OLDPWD");
-		if (path == NULL || *path == '\0' || ft_isspace(*path) != 0 )
+		if (path == NULL || *path == '\0' || ft_isspace(*path) != 0)
 			return (EXIT_FAILURE);
-		// change_dir(exec, path);
-		// return (EXIT_SUCCESS);
 	}
 	else if (args[2] != NULL)
 	{
 		ft_putendl_fd("minishell: cd: too many arguments", 2);
-		return (EXIT_FAILURE);	
+		return (EXIT_FAILURE);
 	}
-	resault = change_dir(exec, path);
-	if (resault != 0)
+	if (change_dir(exec, path) != 0)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

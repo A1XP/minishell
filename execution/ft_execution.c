@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:02:50 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/03/03 14:23:15 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/03/05 16:59:25 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,15 @@ int	ft_exec_cmd_or_builtin(t_executer *exec, t_ast_node *node)
 	buildin = ft_builtins(exec, node);
 	if (buildin != -1)
 	{
-		return (buildin);
+		exec->status = buildin;
+		return (exec->status);
 	}
-	ft_execve_cmd(exec, node);
+	exec->status = ft_execve_cmd(exec, node);
 	close(exec->out_fd);
 	exec->out_fd = dup(STDOUT_FILENO);
 	close(exec->in_fd);
 	exec->in_fd = dup(STDIN_FILENO);
-	return (0);
+	return (exec->status);
 }
 
 int	ft_exec_and(t_executer *exec, t_ast_node *node)
@@ -83,22 +84,21 @@ int	ft_execution(t_executer *exec, t_ast_node *node)
 	return (exec->status);
 }
 
-int ft_exec_group(t_executer *exec, t_ast_node *node)
+int	ft_exec_group(t_executer *exec, t_ast_node *node)
 {
 	pid_t		pid;
 	int			status;
-	
+
 	if (node->group_redirs != NULL)
 		ft_redirection_group(exec, node);
 	pid = fork();
 	if (pid == -1)
 		return (EXIT_FAILURE);
 	else if (pid == 0)
-		{
-			exec->status = ft_exec_recursive(exec, node->subtree);
-			if (exec->status == 0)
-				exit(EXIT_SUCCESS);
-		}
+	{
+		exec->status = ft_exec_recursive(exec, node->subtree);
+		exit(exec->status);
+	}
 	close(exec->out_fd);
 	exec->out_fd = dup(STDOUT_FILENO);
 	close(exec->in_fd);

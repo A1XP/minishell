@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:08:16 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/03/03 17:13:51 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/03/05 16:36:40 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	set_bin_paths(t_executer *exec, char **env)
 		if (ft_strncmp(env[i], "PATH=", 5) == 0)
 		{
 			path_env = env[i] + 5;
-			break;
+			break ;
 		}
 		i++;
 	}
@@ -66,8 +66,8 @@ char	*find_cmd(char *cmd, t_executer *exec)
 int	ft_execve_cmd(t_executer *exec, t_ast_node *node)
 {
 	char	*cmd;
-	int	 prc_id;
-	int	 status;
+	int		prc_id;
+	int		status;
 
 	prc_id = fork();
 	if (prc_id == -1)
@@ -114,4 +114,21 @@ int	ft_exec_init(t_executer *exec, char **envp)
 	if (exec->out_fd == -1)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
+}
+
+void	ft_exec_clean(t_executer *exec)
+{
+	free_double_array(exec->env);
+	free_double_array(exec->bin_paths);
+	free_ast(&exec->ast);
+	if (exec->wd)
+	{
+		free(exec->wd);
+		exec->wd = NULL;
+	}
+	if (exec->old_wd)
+	{
+		free(exec->old_wd);
+		exec->old_wd = NULL;
+	}
 }

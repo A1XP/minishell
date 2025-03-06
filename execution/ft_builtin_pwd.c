@@ -6,13 +6,13 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:40:12 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/02/25 15:59:10 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/03/05 16:48:06 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-int ft_builtin_pwd(t_executer *exec)
+int	ft_builtin_pwd(t_executer *exec)
 {
 	pid_t	pid;
 	int		status;

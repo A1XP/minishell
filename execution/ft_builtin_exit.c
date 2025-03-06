@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:57:59 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/02/26 16:01:05 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/03/05 16:45:15 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static int	check_limit(int sign, unsigned long long number)
 {
-	
 	if ((sign == 1 && number > LLONG_MAX) \
 		|| (sign == -1 && number > -(unsigned long long)LLONG_MIN))
 		return (1);
@@ -24,8 +23,8 @@ static int	check_limit(int sign, unsigned long long number)
 long long	ft_atoll_with_check(const char *str)
 {
 	unsigned long long	number;
-	int			i;
-	int			sign;
+	int					i;
+	int					sign;
 
 	number = 0;
 	i = 0;
@@ -45,18 +44,18 @@ long long	ft_atoll_with_check(const char *str)
 		number = number * 10;
 		number = number + str[i] - 48;
 		if (check_limit(sign, number) == 1)
-			{
+		{
 			errno = ERANGE;
-			return (errno); 
-			}
+			return (errno);
+		}
 		i++;
 	}
 	return (sign * number);
 }
 
-int get_exit_code(char *str)
+int	get_exit_code(char *str)
 {
-	int	i;
+	int				i;
 	long long int	num; //-9223372036854775808 : 9223372036854775807
 // bash: line 1: exit: 9223372036854775808: numeric argument required
 
@@ -70,27 +69,26 @@ int get_exit_code(char *str)
 	while (str[i] != '\0')
 	{
 		if (ft_isdigit(str[i]) == 0) //bash: line 1: exit: 922t: numeric argument required
-			{
+		{
 			errno = ERANGE;
-			return (errno); 
-			}
+			return (errno);
+		}
 		i++;
 	}
 	num = ft_atoll_with_check(str);
 	return (num % 256);
 }
 
-int ft_builtin_exit(t_executer *exec, char **args)
+int	ft_builtin_exit(t_executer *exec, char **args)
 {
-	int exit_code;
-	
+	int	exit_code;
+
 	ft_putendl_fd("exit", 1);
 	if (args == NULL || args[1] == NULL)
 	{
 		exec->isexit = 1;
 		return (g_exit_code);
 	}
-
 	else if(args[2] != NULL)
 	{
 		ft_putendl_fd("minishell: exit: too many arguments", 2);
@@ -106,5 +104,5 @@ int ft_builtin_exit(t_executer *exec, char **args)
 		return (2);
 	}
 	exec->isexit = 1;
-	return(exit_code);
+	return (exit_code);
 }

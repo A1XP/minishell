@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:03:54 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/02/11 15:40:21 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/03/05 16:34:56 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ void	print_darray(char **array)
 
 	i = 0;
 	while (array[i] != NULL)
-		{
-			printf("%s\n", array[i]);
-			i++;
-		}
+	{
+		printf("%s\n", array[i]);
+		i++;
+	}
 }

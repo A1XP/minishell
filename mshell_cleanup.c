@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mshell_cleanup.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkhamich <nkhamich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 13:34:07 by nkhamich          #+#    #+#             */
-/*   Updated: 2025/02/03 16:04:11 by nkhamich         ###   ########.fr       */
+/*   Updated: 2025/03/05 13:32:42 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@ t_mshell_phase	mshell_cleanup(t_mshell *mshell)
 		free_tokens(&mshell->tokens);
 	if (mshell->ast)
 		free_ast(&mshell->ast);
+	ft_exec_clean(&mshell->exec);
 	return (MINISHELL_EXIT);
 }

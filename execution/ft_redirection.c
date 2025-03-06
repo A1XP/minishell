@@ -6,28 +6,28 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 16:13:19 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/03/03 13:56:02 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/03/05 16:51:44 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-static void ft_redirection_out_files(t_redirect *redirects)
+static	void	ft_redirection_out_files(t_redirect *redirects)
 {
 	int	fd_out;
-	
+
 	while (redirects)
 	{
 		if (redirects->redir_type == REDIR_OUT)
-			{
-				fd_out = open(redirects->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-				close(fd_out);
-			}
+		{
+			fd_out = open(redirects->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			close(fd_out);
+		}
 		else if (redirects->redir_type == APPEND)
-			{
-				fd_out = open(redirects->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-				close(fd_out);
-			}
+		{
+			fd_out = open(redirects->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			close(fd_out);
+		}
 		redirects = redirects->next;
 	}
 }
@@ -35,7 +35,7 @@ static void ft_redirection_out_files(t_redirect *redirects)
 static int	ft_redirection_out(t_executer *exec, t_ast_node *node)
 {
 	int	fd_out;
-	
+
 	fd_out = open(node->cmd->redirects->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	close(exec->out_fd);
 	exec->out_fd = fd_out;
@@ -47,7 +47,7 @@ static int	ft_redirection_out(t_executer *exec, t_ast_node *node)
 static int	ft_redirection_append(t_executer *exec, t_ast_node *node)
 {
 	int	fd_out;
-	
+
 	fd_out = open(node->cmd->redirects->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	close(exec->out_fd);
 	exec->out_fd = fd_out;
@@ -66,7 +66,7 @@ static int	ft_redirection_in(t_executer *exec, t_ast_node *node)
 	return (exec->status);
 }
 
-int ft_redirection(t_executer *exec, t_ast_node *node)
+int	ft_redirection(t_executer *exec, t_ast_node *node)
 {
 	if (node->cmd->redirects->redir_type == REDIR_OUT)
 		ft_redirection_out(exec, node);

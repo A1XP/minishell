@@ -16,6 +16,6 @@ ls -lah | grep msh > 1
 echo TEST 7
 ls -lah | grep msh >> 2
 echo TEST 8
-(ls -lah | grep msh) > 3 > 4 > 5
+(ls -lah | grep msh) > 3 >> 4 > 5
 echo TEST 9
-(ls -lah | grep msh) >> 6 >> 7 >> 8
+(ls -lah | grep msh) >> 6 > 7 >> 8

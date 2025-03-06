@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:14:53 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/03/03 13:31:06 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/03/05 16:38:50 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_executer
 	char		*old_wd;
 	int			in_fd;
 	int			out_fd;
-    int         status;
+	int			status;
 	int			isexit;
 }	t_executer;
 
@@ -48,21 +48,21 @@ int		ft_redirection_group(t_executer *exec, t_ast_node *node);
 int		ft_redirection_heredoc(t_executer *exec, t_ast_node *node);
 int		ft_execve_cmd(t_executer *exec, t_ast_node *node);
 
-int	    init_env(t_executer *exec, char **env);
+int		init_env(t_executer *exec, char **env);
 int		set_bin_paths(t_executer *exec, char **env);
-int	    init_wds(t_executer *exec);
+int		init_wds(t_executer *exec);
 int		ft_exec_init(t_executer *exec, char **envp);
 int		ft_exec_cmd(t_executer *exec, t_ast_node *node);
 int		ft_exec_pipe(t_executer *exec, t_ast_node *node);
 int		ft_execution(t_executer *exec, t_ast_node *node);
 int		ft_exec_recursive(t_executer *exec, t_ast_node *node);
 
-int 	ft_builtin_cd(t_executer *exec, char **args);
+int		ft_builtin_cd(t_executer *exec, char **args);
 int		ft_builtin_echo(t_executer *exec, char **args);
-int	    ft_builtin_env(t_executer *exec);
-int 	ft_builtin_exit(t_executer *exec, char **args);
+int		ft_builtin_env(t_executer *exec);
+int		ft_builtin_exit(t_executer *exec, char **args);
 int		ft_builtin_export(t_executer *exec, char **args);
-int	    ft_builtin_pwd(t_executer *exec);
+int		ft_builtin_pwd(t_executer *exec);
 int		ft_builtin_unset(t_executer *exec, char **args);
 
 void	free_ptr(void *ptr);
@@ -70,10 +70,10 @@ void	free_double_array(char **array);
 int		ft_isalnumunder(int i);
 int		check_var(char *var);
 
-int	 	env_count(char **env);
-int		 get_env_index(char **env, char *var);
+int		env_count(char **env);
+int		get_env_index(char **env, char *var);
 char	*get_env_var(char **env, char *var);
-int 	set_var_value(t_executer *exec, char *key, char *value);
+int		set_var_value(t_executer *exec, char *key, char *value);
 char	**reallocate_env_nodes(t_executer *exec, int count);
-
+void	ft_exec_clean(t_executer *exec);
 #endif
