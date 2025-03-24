@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:56:04 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/03/05 16:40:06 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/03/18 15:52:58 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	update_env_wds(t_executer *exec, char *path)
 {
-	if (set_var_value(exec, "OLDPWD", get_env_var(exec->env, "PWD")) != 0)
+	if (set_var_value(&exec->env, "OLDPWD", get_env_var(exec->env, "PWD")) != 0)
 		return (-1);
-	if (set_var_value(exec, "PWD", path) != 0)
+	if (set_var_value(&exec->env, "PWD", path) != 0)
 		return (-1);
 	if (exec->old_wd == NULL)
 	{
@@ -57,6 +57,7 @@ int	change_dir(t_executer *exec, char *path)
 		return (-1);
 	if (update_env_wds(exec, cwd) != 0)
 		return (-1);
+	free(cwd);
 	return (0);
 }
 

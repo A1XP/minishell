@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 16:22:41 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/03/05 16:47:27 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/03/17 16:33:41 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	**var_value_pair(char *arg)
 	return (temp);
 }
 
-char	**reallocate_env_nodes(t_executer *exec, int count)
+char	**reallocate_env_nodes(char **env, int count)
 {
 	char	**new_env;
 	int		i;
@@ -56,42 +56,47 @@ char	**reallocate_env_nodes(t_executer *exec, int count)
 	if (!new_env)
 		return (NULL);
 	i = 0;
-	while (exec->env[i] && i < count)
+	while (env[i] && i < count)
 	{
-		new_env[i] = ft_strdup(exec->env[i]);
-		free_ptr(exec->env[i]);
+		new_env[i] = ft_strdup(env[i]);
+		free_ptr(env[i]);
 		i++;
 	}
-	free(exec->env);
+	free(env);
 	return (new_env);
 }
 
-int	set_var_value(t_executer *exec, char *var, char *value)
+int	set_var_value(char ***env, char *var, char *value)
 {
 	char	*new_value;
 	int		index;
-
+	char	**new_env;
+	
 	if (value == NULL)
-		value = "";
+		value = ft_calloc(1, sizeof(char));
 	new_value = ft_strjoin("=", value);
-	// printf("=VALUE: %s\n", value);
 	if (new_value == NULL)
 		return (EXIT_FAILURE);
-	index = get_env_index(exec->env, var);
-	if (index != -1 && exec->env[index] != NULL)
+	index = get_env_index(*env, var);
+	if (index != -1 && (*env)[index] != NULL)
 	{
-		free_ptr(exec->env[index]);
-		exec->env[index] = ft_strjoin(var, new_value);
-		// printf("KEY=VALUE in if: %s\n", exec->env[index]);
+		// printf("INDEX %d\n", index);
+		free((*env)[index]);
+		(*env)[index] = ft_strjoin(var, new_value);
+		// printf("KEY=VALUE in if: %s\n", *env[index]);
 	}
 	else
 	{
-		index = env_count(exec->env);
-		exec->env = reallocate_env_nodes(exec, index + 1);
-		if (exec->env == NULL)
+		index = env_count(*env);
+		new_env = reallocate_env_nodes(*env, index + 1);
+		if (new_env == NULL)
+		{
+			free_ptr(new_value);
 			return (EXIT_FAILURE);
-		exec->env[index] = ft_strjoin(var, new_value);
-		// printf("KEY=VALUE in else: %s\n", exec->env[index]);
+		}
+		*env = new_env;
+		(*env)[index] = ft_strjoin(var, new_value);
+		// printf("KEY=VALUE in else: %s\n", (*env)[index]);
 		// exec->env[index + 1] = NULL;
 		// printf("KEY=VALUE in else + 1: %s\n", exec->env[index + 1]);
 	}
@@ -116,6 +121,7 @@ static	int	export_print(t_executer *exec)
 		ft_putendl_fd(exec->env[i], STDOUT_FILENO);
 		i++;
 	}
+	ft_exec_clean(exec);
 	exit (EXIT_SUCCESS);
 }
 
@@ -161,7 +167,7 @@ int	ft_builtin_export(t_executer *exec, char **args)
 			temp = var_value_pair(args[i]);
 			if (temp == NULL)
 				return (EXIT_FAILURE);
-			set_var_value(exec, temp[0], temp[1]);
+			set_var_value(&exec->env, temp[0], temp[1]);
 			free_double_array(temp);
 		}
 		i++;

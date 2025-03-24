@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assignment.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natallia <natallia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nkhamich <nkhamich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 18:57:03 by natallia          #+#    #+#             */
-/*   Updated: 2025/03/03 14:54:04 by natallia         ###   ########.fr       */
+/*   Updated: 2025/03/18 11:11:17 by nkhamich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,9 @@ bool	is_permanent_assign(t_token *token, t_token *last)
 		if (token->type == SPACE)
 			;
 		else if (is_valid_assignment(token))
-			;
+			while (token->next && (token->next->type == STR_DOUBLE_Q
+				|| token->next->type == STR_SINGLE_Q))
+					token = token->next;
 		else if (token->type == REDIR_IN || token->type == REDIR_OUT
 				|| token->type == APPEND || token->type == HEREDOC)
 			;
@@ -63,6 +65,12 @@ int	add_assignment(t_ast_node *node, t_token **token, t_token *end)
 	new_assign = ft_strdup((*token)->value);
 	if (new_assign == NULL)
 		return (PARSER_CRITICAL_ERROR);
+	while ((*token)->next && ((*token)->next->type == STR_DOUBLE_Q
+		|| (*token)->next->type == STR_SINGLE_Q))
+	{
+		new_assign = ft_strjoin_free(new_assign, (*token)->next->value);
+		(*token) = (*token)->next;
+	}
 	new_assign_lst = ft_lstnew(new_assign);
 	if (new_assign_lst == NULL)
 	{

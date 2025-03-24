@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:40:12 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/03/05 16:48:06 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/03/17 16:33:59 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	ft_builtin_pwd(t_executer *exec)
 		close(exec->in_fd);
 		close(exec->out_fd);
 		ft_putendl_fd(exec->wd, 1);
+		ft_exec_clean(exec);
 		exit (EXIT_SUCCESS);
 	}
 	waitpid(pid, &status, 0);

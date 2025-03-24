@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 19:37:23 by natallia          #+#    #+#             */
-/*   Updated: 2025/02/18 16:09:44 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/03/07 17:28:38 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 
 typedef enum e_mshell_phase
 {
@@ -53,5 +54,7 @@ t_mshell_phase	mshell_execution(t_mshell *mshell);
 char			**get_envp_copy(char **envp);
 void			free_envp_copy(char **envp_copy);
 void			free_tokens(t_token **tokens);
+
+void			ignore_ctrl_c(void);
 
 #endif

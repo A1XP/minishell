@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 15:26:28 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/03/05 16:40:51 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:40:12 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ static void	echo_print(t_executer *exec, char **args, int n_key, int i)
 	{
 		if (n_key == 0)
 			ft_putchar_fd('\n', STDOUT_FILENO);
-		return ;
+		ft_exec_clean(exec);
+		exit (EXIT_SUCCESS);
 	}
 	while (args[i] != NULL)
 	{
@@ -47,6 +48,7 @@ static void	echo_print(t_executer *exec, char **args, int n_key, int i)
 			ft_putchar_fd('\n', STDOUT_FILENO);
 		i++;
 	}
+	ft_exec_clean(exec);
 	exit (EXIT_SUCCESS);
 }
 

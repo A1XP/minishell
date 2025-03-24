@@ -6,7 +6,7 @@
 /*   By: nkhamich <nkhamich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:12:05 by natallia          #+#    #+#             */
-/*   Updated: 2025/02/04 13:24:21 by nkhamich         ###   ########.fr       */
+/*   Updated: 2025/03/18 11:24:01 by nkhamich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ int	handle_dollar(const char **input, t_token **tokens)
 {
 	t_token		*new_token;
 
-	if (*input[1] == '\0'
-		|| (!ft_isalpha(*input[1]) && !ft_strchr("_?", *input[1])))
+	if ((*input)[1] == '\0'
+		|| (!ft_isalpha((*input)[1]) && !ft_strchr("_?", (*input)[1])))
 	{
 		new_token = create_token(WORD, "$");
 		if (new_token == NULL)

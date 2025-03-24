@@ -6,16 +6,17 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:08:16 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/03/05 16:36:40 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/03/20 16:38:01 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-int	set_bin_paths(t_executer *exec, char **env)
+char **get_bin_paths(char **env)
 {
 	char	*path_env;
 	int		i;
+	char	**bin_paths;
 
 	path_env = NULL;
 	i = 0;
@@ -28,10 +29,10 @@ int	set_bin_paths(t_executer *exec, char **env)
 		}
 		i++;
 	}
-	exec->bin_paths = ft_split(path_env, ':');
-	if (exec->bin_paths == NULL)
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	bin_paths = ft_split(path_env, ':');
+	if (bin_paths == NULL)
+		return (NULL);
+	return (bin_paths);
 }
 
 char	*find_cmd(char *cmd, t_executer *exec)
@@ -39,17 +40,22 @@ char	*find_cmd(char *cmd, t_executer *exec)
 	char	*tmp;
 	char	*new_cmd;
 	int		i;
+	char	**bin_paths;
 
-	i = -1;
+
 	if (ft_strchr(cmd, '/') != NULL)
 	{
 		if (access(cmd, F_OK) == 0)
 			return (cmd);
 		return (NULL);
 	}
-	while (exec->bin_paths[++i] != NULL)
+	bin_paths = get_bin_paths(exec->env);
+	if (bin_paths == NULL)
+		return (NULL);
+	i = -1;
+	while (bin_paths[++i] != NULL)
 	{
-		tmp = ft_strjoin(exec->bin_paths[i], "/");
+		tmp = ft_strjoin(bin_paths[i], "/");
 		if (tmp == NULL)
 			return (NULL);
 		new_cmd = ft_strjoin(tmp, cmd);
@@ -69,6 +75,7 @@ int	ft_execve_cmd(t_executer *exec, t_ast_node *node)
 	int		prc_id;
 	int		status;
 
+	cmd = find_cmd(node->cmd->cmd_name, exec);
 	prc_id = fork();
 	if (prc_id == -1)
 		return (EXIT_FAILURE);
@@ -102,11 +109,13 @@ int	ft_exec_init(t_executer *exec, char **envp)
 		return (EXIT_FAILURE);
 	if (init_wds(exec) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (set_bin_paths(exec, envp) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
+	// if (set_bin_paths(exec, envp) == EXIT_FAILURE)
+	// 	return (EXIT_FAILURE);
 	exec->status = 0;
 	exec->ast = NULL;
 	exec->isexit = 0;
+	exec->perm_env = NULL;
+	exec->temp_env = NULL;
 	exec->in_fd = dup(STDIN_FILENO);
 	if (exec->in_fd == -1)
 		return (EXIT_FAILURE);
@@ -116,10 +125,14 @@ int	ft_exec_init(t_executer *exec, char **envp)
 	return (EXIT_SUCCESS);
 }
 
+void	free_envp_copy(char **envp_copy);
+
 void	ft_exec_clean(t_executer *exec)
 {
-	free_double_array(exec->env);
-	free_double_array(exec->bin_paths);
+	free_envp_copy(exec->env);
+	free_envp_copy(exec->perm_env);
+	free_envp_copy(exec->temp_env);
+	// free_envp_copy(exec->bin_paths);
 	free_ast(&exec->ast);
 	if (exec->wd)
 	{
@@ -131,4 +144,15 @@ void	ft_exec_clean(t_executer *exec)
 		free(exec->old_wd);
 		exec->old_wd = NULL;
 	}
+	if (exec->in_fd >= 0)
+	{
+		close(exec->in_fd);
+		exec->in_fd = -1;
+	}
+	if (exec->out_fd >= 0)
+	{
+		close(exec->out_fd);
+		exec->out_fd = -1;
+	}
+	unlink("heredoc");
 }

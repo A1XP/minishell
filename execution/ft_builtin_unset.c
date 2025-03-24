@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:19:12 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/03/05 16:48:27 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/03/14 14:19:54 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	remove_env_var(t_executer *exec, int index)
 		free_ptr(exec->env[index + 1]);
 		index++;
 	}
-	exec->env = reallocate_env_nodes(exec, index);
+	exec->env = reallocate_env_nodes(exec->env, index);
 	if (exec->env == NULL)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);

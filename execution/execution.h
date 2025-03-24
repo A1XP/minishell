@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:14:53 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/03/05 16:38:50 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/03/20 16:26:17 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <stdint.h>
 # include <stdio.h>
 # include <limits.h>
-# include <linux/limits.h>
 # include <string.h>
 # include <sys/wait.h>
 # include <errno.h>
@@ -33,7 +32,9 @@ typedef struct s_executer
 {
 	t_ast_node	*ast;
 	char		**env;
-	char		**bin_paths;
+	char		**perm_env;
+	char		**temp_env;
+	// char		**bin_paths;
 	char		*wd;
 	char		*old_wd;
 	int			in_fd;
@@ -70,10 +71,12 @@ void	free_double_array(char **array);
 int		ft_isalnumunder(int i);
 int		check_var(char *var);
 
+char	**var_value_pair(char *arg);
 int		env_count(char **env);
 int		get_env_index(char **env, char *var);
 char	*get_env_var(char **env, char *var);
-int		set_var_value(t_executer *exec, char *key, char *value);
-char	**reallocate_env_nodes(t_executer *exec, int count);
+int		set_var_value(char ***env, char *key, char *value);
+char	**reallocate_env_nodes(char **env, int count);
 void	ft_exec_clean(t_executer *exec);
+
 #endif

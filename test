@@ -19,3 +19,13 @@ echo TEST 8
 (ls -lah | grep msh) > 3 >> 4 > 5
 echo TEST 9
 (ls -lah | grep msh) >> 6 > 7 >> 8
+echo TEST 10
+export test=123
+echo TEST 11
+export
+
+
+
+//valgrind --leak-check=full --track-fds=yes --trace-children=yes --leak-check=full --show-leak-kinds=all --suppressions=.ignore_leaks.supp --gen-suppressions=all ./minishell
+
+valgrind --gen-suppressions=all --leak-check=full --show-leak-kinds=all --suppressions=.ignore_leaks.supp ./minishell

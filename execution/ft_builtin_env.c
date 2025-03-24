@@ -6,7 +6,7 @@
 /*   By: pkhvorov <pkhvorov@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:55:08 by pkhvorov          #+#    #+#             */
-/*   Updated: 2025/03/05 16:41:40 by pkhvorov         ###   ########.fr       */
+/*   Updated: 2025/03/17 16:33:14 by pkhvorov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static	int	env_print(t_executer *exec)
 		ft_putendl_fd(exec->env[i], STDOUT_FILENO);
 		i++;
 	}
+	ft_exec_clean(exec);
 	exit (EXIT_SUCCESS);
 }
 

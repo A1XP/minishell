@@ -1,0 +1,73 @@
+{
+	ignore_grep_leaks
+	Memcheck:Leak
+	match-leak-kinds: reachable
+	fun:malloc
+	fun:re_compile_internal
+	fun:re_compile_pattern
+	...
+	obj:/usr/bin/grep
+	fun:(below main)
+}
+{
+   ignore_grep_leaks_2
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/bin/grep
+   obj:/usr/bin/grep
+   fun:(below main)
+}
+{
+   ignore_ls_leaks_3
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   obj:/usr/bin/sort
+   obj:/usr/bin/sort
+   fun:(below main)
+}
+{
+   ignore_ls_leaks_4
+   Memcheck:Leak
+   match-leak-kinds: indirect
+   fun:malloc
+   obj:/usr/bin/sort
+   fun:(below main)
+}
+{
+	ignore_ls_leaks
+	Memcheck:Leak
+	match-leak-kinds: reachable
+	fun:malloc
+	...
+	obj:/usr/bin/ls
+}
+{
+   ignore_ls_leaks_2
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   obj:/usr/bin/sort
+   fun:(below main)
+}
+{
+	ignore_sort_leaks
+	Memcheck:Leak
+	match-leak-kinds: reachable
+	fun:malloc
+	...
+	obj:/usr/bin/sort
+}
+{
+	ignore_readline_leaks
+	Memcheck:Leak
+	...
+	fun:readline
+}
+{
+	ignore_rl_history_leaks
+	Memcheck:Leak
+	...
+	fun:add_history
+}
